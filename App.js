@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
-ScrollView } from 'react-native';
+ScrollView, 
+Alert} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { theme } from './color';
 
@@ -13,6 +14,10 @@ export default function App() {
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
 
+  useEffect(() => {
+    loadToDos();
+  }, []);
+
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
 
@@ -22,11 +27,8 @@ export default function App() {
   };
   const loadToDos = async() => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
-    console.log(s);
+    setToDos(JSON.parse(s));
   };
-  useEffect(() => {
-    loadToDos();
-  }, []);
   const addToDo = async () => {
     if (text === "") {
       return;
@@ -36,7 +38,20 @@ export default function App() {
     await saveToDos(newToDos);
     setText("");
   };
-
+  const delToDo = (key) => {
+    Alert.alert(
+      "Delete To Do", "Are you sure?", [
+      {text: "Cancel"},
+      {text: "OK", 
+      onPress: async() => {
+        const newToDos = {...toDos}
+        delete newToDos[key]
+        setToDos(newToDos);
+        await saveToDos(newToDos);
+        },
+      },
+    ]);
+  }
 
   return(
     <View style={styles.container}>
@@ -61,6 +76,9 @@ export default function App() {
         toDos[key].working === working ? (
          <View style={styles.toDo} key={key}>
           <Text style={styles.toDoText}>{toDos[key].text}</Text>
+          <TouchableOpacity onPress={() => delToDo(key)}>
+            <Text>❌</Text>
+          </TouchableOpacity>
         </View>
         ) : null
         )}
@@ -98,6 +116,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   toDoText: {
     color: "white",
