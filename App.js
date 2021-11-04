@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
 ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
@@ -20,6 +20,13 @@ export default function App() {
   const saveToDos = async(toDoSave) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toDoSave))
   };
+  const loadToDos = async() => {
+    const s = await AsyncStorage.getItem(STORAGE_KEY);
+    console.log(s);
+  };
+  useEffect(() => {
+    loadToDos();
+  }, []);
   const addToDo = async () => {
     if (text === "") {
       return;
