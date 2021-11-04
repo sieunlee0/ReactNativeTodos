@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { theme } from './color';
 
@@ -35,5 +36,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   btnText: {
+    fontSize: 30,
+    fontWeight: "600",
   },
 })
