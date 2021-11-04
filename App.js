@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
+ScrollView } from 'react-native';
 import { theme } from './color';
 
 export default function App() {
@@ -37,9 +38,16 @@ export default function App() {
       onSubmitEditing={addToDo}
       onChangeText={onChangeText}
       value={text}
-      
+      returnKeyType="done"
       placeholder={working ? "Add a To Dos" : "Where do you want to go?"}
       style={styles.input} />
+      <ScrollView>
+        {Object.keys(toDos).map((key) => (
+        <View style={styles.toDo} key={key}>
+          <Text style={styles.toDoText}>{toDos[key].text}</Text>
+        </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -66,5 +74,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginTop: 20,
     fontSize: 20,
+  },
+  toDo: {},
+  toDoText: {
+    color: "white",
   }
 })
