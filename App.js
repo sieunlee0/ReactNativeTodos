@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { StatusBar, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { theme } from './color';
 
 export default function App() {
@@ -19,6 +19,9 @@ export default function App() {
         <TouchableOpacity onPress={travel}>
           <Text style={{...styles.btnText, color: !working ? "white" : theme.grey}}>Travel</Text>
         </TouchableOpacity>
+      </View>
+      <View>
+        <TextInput placeholder={working ? "Add a To Dos" : "Where do you want to go?"} style={styles.input} />
       </View>
     </View>
   );
@@ -39,4 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "600",
   },
+  input: {
+    backgroundColor: "white",
+  }
 })
