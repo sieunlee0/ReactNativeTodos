@@ -18,7 +18,7 @@ export default function App() {
     if (text === "") {
       return;
     }
-    const newToDos = Object.assign({}, toDos, {[Date.now]: {text, work:working}} )
+    const newToDos = Object.assign({}, toDos, {[Date.now()]: {text, work:working}} )
     setToDos(newToDos);
     setText("");
   };
@@ -72,11 +72,19 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,
-    marginTop: 20,
+    marginVertical: 20,
     fontSize: 20,
   },
-  toDo: {},
+  toDo: {
+    backgroundColor: theme.toDoBg,
+    marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 15,
+  },
   toDoText: {
     color: "white",
+    fontSize: 15,
+    fontWeight: "500",
   }
 })
