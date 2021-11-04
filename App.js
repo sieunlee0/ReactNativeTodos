@@ -68,7 +68,6 @@ export default function App() {
       onSubmitEditing={addToDo}
       onChangeText={onChangeText}
       value={text}
-      returnKeyType="done"
       placeholder={working ? "Add a To Dos" : "Where do you want to go?"}
       style={styles.input} />
       <ScrollView>
@@ -76,9 +75,18 @@ export default function App() {
         toDos[key].working === working ? (
          <View style={styles.toDo} key={key}>
           <Text style={styles.toDoText}>{toDos[key].text}</Text>
-          <TouchableOpacity onPress={() => delToDo(key)}>
-            <Text>❌</Text>
-          </TouchableOpacity>
+          <View style={styles.toDoText}>
+            <TouchableOpacity style={styles.toDoIcon}>
+              <Text>🖊</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.toDoIcon}>
+              <Text>✅</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.toDoIcon} 
+            onPress={() => delToDo(key)}>
+              <Text>❌</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         ) : null
         )}
@@ -124,5 +132,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     fontWeight: "500",
-  }
+    flexDirection: "row",
+  },
+  toDoIcon: {
+    marginLeft: 15,
+  },
 })
