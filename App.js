@@ -17,11 +17,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    paddingHorizontal: 30,
   },
   header:{
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 40,
   },
   btnText: {
     color: 'white',
-  }
+    fontSize: 30,
+  },
 })
