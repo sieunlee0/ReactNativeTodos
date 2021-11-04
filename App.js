@@ -1,13 +1,23 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { theme } from './color';
 
 export default function App() {
+
+  const [working, setWorking] = useState(true);
+  const travel = () => setWorking(false);
+  const work = () => setWorking(true);
+  
   return(
     <View style={styles.container}>
       <StatusBar style="auto"></StatusBar>
       <View style={styles.header}>
-        <Text style={styles.btnText}>Work</Text>
-        <Text style={styles.btnText}>Travel</Text>
+        <TouchableOpacity onPress={work}>
+          <Text style={{...styles.btnText, color: working ? "white" : theme.grey}}>Work</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={travel}>
+          <Text style={{...styles.btnText, color: !working ? "white" : theme.grey}}>Travel</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -16,7 +26,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: theme.bg,
     paddingHorizontal: 30,
   },
   header:{
@@ -25,7 +35,5 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   btnText: {
-    color: 'white',
-    fontSize: 30,
   },
 })
