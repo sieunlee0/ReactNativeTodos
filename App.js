@@ -20,9 +20,8 @@ export default function App() {
           <Text style={{...styles.btnText, color: !working ? "white" : theme.grey}}>Travel</Text>
         </TouchableOpacity>
       </View>
-      <View>
-        <TextInput placeholder={working ? "Add a To Dos" : "Where do you want to go?"} style={styles.input} />
-      </View>
+      <TextInput placeholder={working ? "Add a To Dos" : "Where do you want to go?"}
+      style={styles.input} />
     </View>
   );
 }
@@ -44,5 +43,9 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 20,
   }
 })
