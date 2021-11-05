@@ -4,7 +4,7 @@ import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
 ScrollView, Alert} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { theme } from './color';
-import ShowToggle from "./component/ShowToggle";
+// import ShowToggle from "./component/ShowToggle";
 
 
 const STORAGE_KEY = "@toDos";
@@ -20,14 +20,8 @@ export default function App() {
     loadToDos();
   }, []);
 
-  const travel = () => {
-    setWorking(false);
-    setShow(false);
-  }
-  const work = () => {
-    setWorking(true);
-    setShow(true);
-  }
+  const travel = () => setWorking(false);
+  const work = () => setWorking(true);
 
   const onChangeText = (payload) => setText(payload);
 
@@ -65,6 +59,12 @@ export default function App() {
     ]);
   }
 
+  // const toggleShow = (key) => {
+    
+  // }
+
+
+
   return(
     <View style={styles.container}>
       <StatusBar style="auto"></StatusBar>
@@ -93,7 +93,11 @@ export default function App() {
               <TouchableOpacity style={styles.toDoIcon}>
                 <Text>🖊</Text>
               </TouchableOpacity>
-                <ShowToggle />
+                {/* <ShowToggle /> */}
+              <TouchableOpacity style={styles.toDoIcon}
+              onPress={{show ? }}>
+                <Text>✅</Text>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.toDoIcon} 
               onPress={() => delToDo(key)}>
                 <Text>❌</Text>
@@ -108,7 +112,7 @@ export default function App() {
 }
 
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.bg,
