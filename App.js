@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
-ScrollView, 
-Alert} from 'react-native';
+ScrollView, Alert} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { theme } from './color';
+import ShowToggle from "./component/ShowToggle";
 
 
 const STORAGE_KEY = "@toDos";
@@ -13,14 +13,21 @@ export default function App() {
 
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
+  const [show, setShow] = useState(true);
   const [toDos, setToDos] = useState({});
 
   useEffect(() => {
     loadToDos();
   }, []);
 
-  const travel = () => setWorking(false);
-  const work = () => setWorking(true);
+  const travel = () => {
+    setWorking(false);
+    setShow(false);
+  }
+  const work = () => {
+    setWorking(true);
+    setShow(true);
+  }
 
   const onChangeText = (payload) => setText(payload);
 
@@ -37,7 +44,7 @@ export default function App() {
     if (text === "") {
       return;
     }
-    const newToDos = Object.assign({}, toDos, {[Date.now()]: {text, working}} )
+    const newToDos = Object.assign({}, toDos, {[Date.now()]: {text, working, show}} )
     setToDos(newToDos);
     await saveToDos(newToDos);
     setText("");
@@ -86,9 +93,7 @@ export default function App() {
               <TouchableOpacity style={styles.toDoIcon}>
                 <Text>🖊</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.toDoIcon}>
-                <Text>✅</Text>
-              </TouchableOpacity>
+                <ShowToggle />
               <TouchableOpacity style={styles.toDoIcon} 
               onPress={() => delToDo(key)}>
                 <Text>❌</Text>
@@ -103,7 +108,7 @@ export default function App() {
 }
 
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.bg,
