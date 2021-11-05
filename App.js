@@ -6,6 +6,7 @@ Alert} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { theme } from './color';
 
+
 const STORAGE_KEY = "@toDos";
 
 export default function App() {
@@ -22,13 +23,16 @@ export default function App() {
   const work = () => setWorking(true);
 
   const onChangeText = (payload) => setText(payload);
+
   const saveToDos = async(toDoSave) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toDoSave))
   };
+
   const loadToDos = async() => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
     setToDos(JSON.parse(s));
   };
+
   const addToDo = async () => {
     if (text === "") {
       return;
@@ -38,6 +42,7 @@ export default function App() {
     await saveToDos(newToDos);
     setText("");
   };
+
   const delToDo = (key) => {
     Alert.alert(
       "Delete To Do", "Are you sure?", [
@@ -64,31 +69,33 @@ export default function App() {
           <Text style={{...styles.btnText, color: !working ? "white" : theme.grey}}>Travel</Text>
         </TouchableOpacity>
       </View>
+
       <TextInput 
       onSubmitEditing={addToDo}
       onChangeText={onChangeText}
       value={text}
       placeholder={working ? "Add a To Dos" : "Where do you want to go?"}
       style={styles.input} />
+
       <ScrollView>
         {Object.keys(toDos).map((key) => 
         toDos[key].working === working ? (
-         <View style={styles.toDo} key={key}>
-          <Text style={styles.toDoText}>{toDos[key].text}</Text>
-          <View style={styles.toDoText}>
-            <TouchableOpacity style={styles.toDoIcon}>
-              <Text>🖊</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.toDoIcon}>
-              <Text>✅</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.toDoIcon} 
-            onPress={() => delToDo(key)}>
-              <Text>❌</Text>
-            </TouchableOpacity>
+          <View style={styles.toDo} key={key}>
+            <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            <View style={styles.toDoText}>
+              <TouchableOpacity style={styles.toDoIcon}>
+                <Text>🖊</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.toDoIcon}>
+                <Text>✅</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.toDoIcon} 
+              onPress={() => delToDo(key)}>
+                <Text>❌</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        ) : null
+          ) : null
         )}
       </ScrollView>
     </View>
