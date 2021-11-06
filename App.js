@@ -2,10 +2,10 @@ import { tsNeverKeyword } from '@babel/types';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
-ScrollView, Alert} from 'react-native';
+ScrollView, Alert,} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import { AsyncStorage } from 'react-native';
 import { theme } from './color';
-// import ShowToggle from "./component/ShowToggle";
 
 
 const STORAGE_KEY = "@toDos";
@@ -14,7 +14,7 @@ export default function App() {
 
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
-  const [show, setShow] = useState(true);
+  const [toggleShow, setToggleShow] = useState(false);
   const [toDos, setToDos] = useState({});
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function App() {
     if (text === "") {
       return;
     }
-    const newToDos = Object.assign({}, toDos, {[Date.now()]: {text, working, show}} )
+    const newToDos = Object.assign({}, toDos, {[Date.now()]: {text, working, toggleShow,}} )
     setToDos(newToDos);
     await saveToDos(newToDos);
     setText("");
@@ -61,13 +61,17 @@ export default function App() {
     ]);
   }
 
-  const toggleShow = async() => {
-    setShow(false);
-
-    if (show === false) {
-      setShow(true);
+  const toggleChange = async() => {
+    const newToDos = {...toDos}
+    newToDos.toggleShow = true;
+    setToDos(newToDos);
+    await saveToDos(newToDos);
+    
+    if (newToDos.toggleShow === true) {
+      setToggleShow(false);
+      setToDos(newToDos);
+      await saveToDos(newToDos);
     }
-
   }
 
 
@@ -95,16 +99,18 @@ export default function App() {
         {Object.keys(toDos).map((key) => 
         toDos[key].working === working ? (
           <View style={styles.toDo} key={key}>
-            <Text style={{...styles.toDoText, color: show ? "white" : theme.toDoDone}}>
+            <CheckBox 
+            disabled={false}
+            value={toggleShow}
+            onChange={toggleChange}
+            ></CheckBox>
+            <Text style={{...styles.toDoText, color: !toggleShow ? "white" : theme.toDoDone}}>
               {toDos[key].text}
             </Text>
+
             <View style={styles.toDoText}>
-              <TouchableOpacity style={{...styles.toDoIcon, display: !show ? "none" : null}}>
+              <TouchableOpacity style={{...styles.toDoIcon, display: toggleShow ? "none" : null}}>
                 <Text>🖊</Text>
-              </TouchableOpacity>
-                {/* <ShowToggle /> */}
-              <TouchableOpacity style={styles.toDoIcon} onPress={toggleShow}>
-                <Text>✅</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.toDoIcon} 
               onPress={() => delToDo(key)}>
