@@ -99,7 +99,7 @@ export default function App() {
               {toDos[key].text}
             </Text>
             <View style={styles.toDoText}>
-              <TouchableOpacity style={styles.toDoIcon}>
+              <TouchableOpacity style={{...styles.toDoIcon, display: !show ? "none" : null}}>
                 <Text>🖊</Text>
               </TouchableOpacity>
                 {/* <ShowToggle /> */}
