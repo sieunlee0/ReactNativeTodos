@@ -1,3 +1,4 @@
+import { tsNeverKeyword } from '@babel/types';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity, TextInput,
@@ -22,6 +23,7 @@ export default function App() {
 
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
+  
 
   const onChangeText = (payload) => setText(payload);
 
@@ -59,9 +61,14 @@ export default function App() {
     ]);
   }
 
-  // const toggleShow = (key) => {
-    
-  // }
+  const toggleShow = async() => {
+    setShow(false);
+
+    if (show === false) {
+      setShow(true);
+    }
+
+  }
 
 
 
@@ -88,14 +95,15 @@ export default function App() {
         {Object.keys(toDos).map((key) => 
         toDos[key].working === working ? (
           <View style={styles.toDo} key={key}>
-            <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            <Text style={{...styles.toDoText, color: show ? "white" : theme.toDoDone}}>
+              {toDos[key].text}
+            </Text>
             <View style={styles.toDoText}>
               <TouchableOpacity style={styles.toDoIcon}>
                 <Text>🖊</Text>
               </TouchableOpacity>
                 {/* <ShowToggle /> */}
-              <TouchableOpacity style={styles.toDoIcon}
-              onPress={{show ? }}>
+              <TouchableOpacity style={styles.toDoIcon} onPress={toggleShow}>
                 <Text>✅</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.toDoIcon} 
@@ -146,7 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   toDoText: {
-    color: "white",
+    // color: "white",
     fontSize: 15,
     fontWeight: "500",
     flexDirection: "row",
