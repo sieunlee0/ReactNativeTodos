@@ -61,13 +61,13 @@ export default function App() {
     ]);
   }
 
-  const toggleChange = async() => {
+  const toggleChange = async(key) => {
     const newToDos = {...toDos}
-    newToDos.toggleShow = true;
+    newToDos[key].toggleShow = true;
     setToDos(newToDos);
     await saveToDos(newToDos);
     
-    if (newToDos.toggleShow === true) {
+    if (newToDos[key].toggleShow === true) {
       setToggleShow(false);
       setToDos(newToDos);
       await saveToDos(newToDos);
